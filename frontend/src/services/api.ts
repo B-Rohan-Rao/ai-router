@@ -4,14 +4,11 @@
  */
 
 // Determine API base URL based on environment
+// Use relative URLs in production (proxied by Vercel serverless function)
 const isProduction = import.meta.env.PROD;
-
-const normalizeUrl = (url: string) => (url ? url.replace(/\/+$/, '') : '');
-const envBaseUrl = normalizeUrl(import.meta.env.VITE_API_BASE_URL || '');
-const originBase = typeof window !== 'undefined' ? normalizeUrl(window.location.origin) : '';
-const resolvedBase = envBaseUrl || (originBase ? `${originBase}/api` : '/api');
-const API_BASE_URL = resolvedBase.endsWith('/api') ? resolvedBase : `${resolvedBase}/api`;
-const HEALTH_URL = `${API_BASE_URL.replace(/\/api$/, '')}/health`;
+const API_BASE_URL = isProduction 
+  ? '/api' // Use relative URL in production (proxied by Vercel)
+  : 'http://44.223.69.157:3001/api'; // Use full URL in development
 
 // Log backend URL configuration
 console.log('🔗 Backend URL Configuration:');
@@ -148,7 +145,8 @@ export async function generateContent(request: GenerateRequest): Promise<Generat
  */
 export async function checkServerHealth(): Promise<boolean> {
   try {
-    const response = await fetch(HEALTH_URL);
+    const healthUrl = isProduction ? '/health' : 'http://44.223.69.157:3001/health';
+    const response = await fetch(healthUrl);
     return response.ok;
   } catch (error) {
     return false;
