@@ -10,6 +10,13 @@ const API_BASE_URL = import.meta.env.PROD && import.meta.env.VITE_API_BASE_URL
   ? `${import.meta.env.VITE_API_BASE_URL}/api`
   : '/api';
 
+// Log backend URL configuration
+console.log('🔗 Backend URL Configuration:');
+console.log('  Environment:', import.meta.env.MODE);
+console.log('  VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL || '(not set, using proxy)');
+console.log('  API_BASE_URL:', API_BASE_URL);
+console.log('  Full Backend URL:', import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001 (via proxy)');
+
 // Types for API responses
 export interface ToolCategory {
   category: string;
