@@ -4,14 +4,11 @@
  */
 
 // Determine API base URL based on environment
-// In production (Vercel), use relative URLs which will be proxied by vercel.json
-// In development, use the full backend URL or environment variable
-// For Vercel: The proxy in vercel.json handles /api/* requests
-// For local dev: Uses proxy from vite.config.ts or falls back to direct URL
+// Use relative URLs in production (proxied by Vercel serverless function)
 const isProduction = import.meta.env.PROD;
 const API_BASE_URL = isProduction 
   ? '/api' // Use relative URL in production (proxied by Vercel)
-  : (import.meta.env.VITE_API_URL || 'http://44.223.69.157:3001') + '/api'; // Use full URL in development
+  : 'http://44.223.69.157:3001/api'; // Use full URL in development
 
 // Log backend URL configuration
 console.log('🔗 Backend URL Configuration:');

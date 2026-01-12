@@ -12,6 +12,8 @@ const PORT = process.env.PORT || 3001;
 // Allow requests from Vercel deployments and local development
 const corsOptions = {
   origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
+    console.log('CORS request from origin:', origin);
+    
     // Allow requests with no origin (like mobile apps, Postman, or curl)
     if (!origin) return callback(null, true);
     
@@ -20,20 +22,17 @@ const corsOptions = {
       return callback(null, true);
     }
     
-    // Allow Vercel deployments (all *.vercel.app domains)
+    // Allow all Vercel deployments
     if (origin.includes('.vercel.app')) {
       return callback(null, true);
     }
     
-    // Allow custom domains (you can add your specific Vercel domain here)
-    // Example: if (origin === 'https://your-app.vercel.app') return callback(null, true);
-    
-    // For now, allow all origins (you can restrict this in production)
+    // Allow all origins for now (you can restrict this later)
     callback(null, true);
   },
-  credentials: true,
+  credentials: false, // Set to false for cross-origin requests
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With'],
 };
 
 // Middleware

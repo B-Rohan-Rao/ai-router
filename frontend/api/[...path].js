@@ -1,16 +1,18 @@
 const BACKEND_URL = 'http://44.223.69.157:3001';
 
 export default async function handler(req, res) {
-  console.log('API Proxy called:', req.method, req.url, req.query);
+  // Set CORS headers for all requests
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept, Origin, X-Requested-With');
   
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     return res.status(200).end();
   }
 
+  console.log('API Proxy called:', req.method, req.url, req.query);
+  
   // Get the path from the request
   let path = '';
   if (req.query.path) {
@@ -62,11 +64,6 @@ export default async function handler(req, res) {
 
     const response = await fetch(url, fetchOptions);
     
-    // Set CORS headers
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    
     if (!response.ok) {
       const errorText = await response.text().catch(() => '');
       console.error('Backend error:', response.status, errorText);
@@ -80,7 +77,6 @@ export default async function handler(req, res) {
     return res.status(response.status).json(data);
   } catch (error) {
     console.error('Proxy error:', error);
-    res.setHeader('Access-Control-Allow-Origin', '*');
     return res.status(500).json({ 
       success: false, 
       error: error.message || 'Proxy request failed' 
