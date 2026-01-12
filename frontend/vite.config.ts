@@ -2,8 +2,9 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
-// Hardcoded backend URL
-const BACKEND_URL = 'http://44.223.69.157:3001';
+// Backend URL for local development proxy
+// In production, this is handled by environment variables
+const BACKEND_URL = process.env.VITE_API_URL || 'http://44.223.69.157:3001';
 
 console.log('🔧 Vite Config - Backend URL:', BACKEND_URL);
 

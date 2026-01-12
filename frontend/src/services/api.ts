@@ -3,13 +3,18 @@
  * Handles all communication with the backend API
  */
 
- // Hardcoded backend URL
-const BACKEND_URL = 'http://44.223.69.157:3001';
-const API_BASE_URL = `${BACKEND_URL}/api`;
+// Determine API base URL based on environment
+// In production (Vercel), use relative URLs which will be proxied by vercel.json
+// In development, use the full backend URL or environment variable
+const isProduction = import.meta.env.PROD;
+const API_BASE_URL = isProduction 
+  ? '/api' // Use relative URL in production (proxied by Vercel)
+  : (import.meta.env.VITE_API_URL || 'http://44.223.69.157:3001') + '/api'; // Use full URL in development
 
 // Log backend URL configuration
 console.log('🔗 Backend URL Configuration:');
-console.log('  Backend URL:', BACKEND_URL);
+console.log('  Environment:', import.meta.env.MODE);
+console.log('  Is Production:', isProduction);
 console.log('  API_BASE_URL:', API_BASE_URL);
 
 // Types for API responses
