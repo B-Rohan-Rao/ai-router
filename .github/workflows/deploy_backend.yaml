@@ -30,9 +30,9 @@ jobs:
       - name: Copy image to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.EC2_HOST_ASIA }}
+          host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_KEY_ASIA }}
+          key: ${{ secrets.EC2_KEY }}
           source: "hyperdex-backend.tar.gz"
           target: "~/"
 
@@ -57,9 +57,9 @@ jobs:
       - name: Copy configuration files to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.EC2_HOST_ASIA }}
+          host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_KEY_ASIA }}
+          key: ${{ secrets.EC2_KEY }}
           source: ".env.deploy,docker-compose.prod.yml"
           target: "~/"
 
@@ -67,9 +67,9 @@ jobs:
       - name: Deploy on EC2
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ secrets.EC2_HOST_ASIA }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_KEY_ASIA }}
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }} 
+          key: ${{ secrets.EC2_KEY }}
           script: |
             # Remove existing hyperdex directory
             rm -rf ~/hyperdex
