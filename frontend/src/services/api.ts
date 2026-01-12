@@ -3,19 +3,14 @@
  * Handles all communication with the backend API
  */
 
-// Get API base URL from environment variable
-// In development, use the proxy (/api) which forwards to the backend
-// In production, use the full backend URL from .env
-const API_BASE_URL = import.meta.env.PROD && import.meta.env.VITE_API_BASE_URL
-  ? `${import.meta.env.VITE_API_BASE_URL}/api`
-  : '/api';
+ // Hardcoded backend URL
+const BACKEND_URL = 'http://44.223.69.157:3001';
+const API_BASE_URL = `${BACKEND_URL}/api`;
 
 // Log backend URL configuration
 console.log('🔗 Backend URL Configuration:');
-console.log('  Environment:', import.meta.env.MODE);
-console.log('  VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL || '(not set, using proxy)');
+console.log('  Backend URL:', BACKEND_URL);
 console.log('  API_BASE_URL:', API_BASE_URL);
-console.log('  Full Backend URL:', import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001 (via proxy)');
 
 // Types for API responses
 export interface ToolCategory {
